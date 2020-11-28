@@ -22,8 +22,9 @@ public class CameraSystem : MonoBehaviour
     private float _targetDistance;
     private float _currentDistance;
     private Vector3 _followVelocityDamp;
-    private float _angleX;
+    private float _pivotAngleX;
     private Vector3 _offsetNormalized;
+    private float _cameraAngleX;
 
     private void Start()
     {
@@ -38,19 +39,26 @@ public class CameraSystem : MonoBehaviour
     {
         SetCameraDistance();
         SmoothFollowTarget();
+        //VerticalRot();
 
         _debugText.text = $"Zoom current: {_currentDistance} / Zoom target: {_targetDistance}";
+    }
+
+    private void VerticalRot()
+    {
+        _camera.transform.LookAt(_followTarget);
     }
 
     private void SetCameraDistance()
     {
         _currentDistance = Mathf.Lerp(_currentDistance, _targetDistance, Time.deltaTime * _cameraZoomStrength * 4f);
+        _currentDistance = Mathf.Clamp(_currentDistance, _cameraZoomRange.x, _cameraZoomRange.y);
 
         Ray ray = new Ray(this.transform.position, this.transform.rotation * _offsetNormalized);
         RaycastHit rayHit;
         float distance = Physics.SphereCast(ray, 0.1f, out rayHit, _currentDistance) ? rayHit.distance : _currentDistance;
 
-        _camera.localPosition = _offsetNormalized * Mathf.Clamp(distance, _cameraZoomRange.x, _cameraZoomRange.y);
+        _camera.localPosition = _offsetNormalized * distance;
     }
     private void SmoothFollowTarget()
     {
@@ -60,9 +68,9 @@ public class CameraSystem : MonoBehaviour
     public void RotatePivot(Vector3 mouseInput)
     {
         mouseInput *= _cameraSensitivity;
-        _angleX = Mathf.Clamp(_angleX + mouseInput.x, -35, 65);
+        _pivotAngleX = Mathf.Clamp(_pivotAngleX + mouseInput.x, -35, 65);
 
-        this.transform.rotation = Quaternion.Euler(_angleX, this.transform.localEulerAngles.y + mouseInput.y, 0);
+        this.transform.rotation = Quaternion.Euler(_pivotAngleX, this.transform.localEulerAngles.y + mouseInput.y, 0);
     }
 
     public void Zoom(float amount)
@@ -70,7 +78,7 @@ public class CameraSystem : MonoBehaviour
         if(amount > 0)//Zoom in when camera is blocked means we have to set maxDistance to the current position
             _currentDistance = -_camera.localPosition.z;
 
-        _targetDistance = Mathf.Clamp(_currentDistance - (amount * _cameraZoomStrength), _cameraZoomRange.x, _cameraZoomRange.y);
+        _targetDistance = _currentDistance - (amount * _cameraZoomStrength);
     }
 
 }
