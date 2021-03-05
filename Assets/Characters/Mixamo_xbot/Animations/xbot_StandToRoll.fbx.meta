@@ -1,11 +1,14 @@
 fileFormatVersion: 2
-guid: e88919bf12368c646af081f824dca8a7
+guid: 168fe9245241a8446b6d7239064724ee
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable:
   - first:
       74: -203655887218126122
-    second: xbot_Idle
+    second: mixamo.com
+  - first:
+      74: 6363703806791269319
+    second: xbot_StandToRoll
   externalObjects: {}
   materials:
     materialImportMode: 0
@@ -35,11 +38,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: xbot_Idle
+      name: xbot_StandToRoll
       takeName: mixamo.com
       internalID: 0
-      firstFrame: 0
-      lastFrame: 250
+      firstFrame: 6
+      lastFrame: 71
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -50,7 +53,7 @@ ModelImporter:
       loopBlend: 0
       loopBlendOrientation: 1
       loopBlendPositionY: 1
-      loopBlendPositionXZ: 1
+      loopBlendPositionXZ: 0
       keepOriginalOrientation: 1
       keepOriginalPositionY: 1
       keepOriginalPositionXZ: 1
