@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: d8fbb17c2b7caf04c9c4afff4dc1c48d
+guid: 500a5c3306589a14bb2558a0dba72b2c
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable:
   - first:
       74: -203655887218126122
-    second: xbot_Flying_1Entry
+    second: xbot_Running_R
   externalObjects: {}
   materials:
     materialImportMode: 0
@@ -35,18 +35,18 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: xbot_Flying_1Entry
+      name: xbot_Running_R
       takeName: mixamo.com
       internalID: 0
       firstFrame: 0
-      lastFrame: 22
+      lastFrame: 21
       wrapMode: 0
-      orientationOffsetY: 0
+      orientationOffsetY: -90
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 1
       loopBlendPositionY: 1

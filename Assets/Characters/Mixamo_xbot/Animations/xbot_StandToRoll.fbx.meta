@@ -41,8 +41,8 @@ ModelImporter:
       name: xbot_StandToRoll
       takeName: mixamo.com
       internalID: 0
-      firstFrame: 6
-      lastFrame: 71
+      firstFrame: 8
+      lastFrame: 62
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

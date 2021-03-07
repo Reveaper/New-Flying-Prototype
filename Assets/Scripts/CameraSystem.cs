@@ -24,6 +24,9 @@ public class CameraSystem : MonoBehaviour
     private float _pivotAngleX;
     private Vector3 _offsetNormalized;
 
+    private bool _isTargeting;
+    private GameObject _targetingObject;
+
     private void Start()
     {
         _offset = this.transform.position - _target.position;
@@ -35,6 +38,23 @@ public class CameraSystem : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Q) && !_isTargeting)
+        {
+            Ray ray = new Ray(_camera.transform.position, _camera.transform.forward * 100f);
+            RaycastHit rayHit;
+
+            if (Physics.Raycast(ray, out rayHit))
+            {
+                _isTargeting = true;
+                _targetingObject = rayHit.collider.gameObject;
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.Q) &&  _isTargeting)
+            _isTargeting = false;
+
+        if(_isTargeting)
+            this.transform.LookAt(_targetingObject.transform);
+
         SetCameraDistance();
         SmoothFollowTarget();
     }
@@ -58,10 +78,14 @@ public class CameraSystem : MonoBehaviour
 
     public void RotatePivot(Vector3 mouseInput)
     {
-        mouseInput *= _rotationSensitivity;
-        _pivotAngleX = Mathf.Clamp(_pivotAngleX + mouseInput.x, -65, 65);
+        if(!_isTargeting)
+        {
+            mouseInput *= _rotationSensitivity;
+            _pivotAngleX = Mathf.Clamp(_pivotAngleX + mouseInput.x, -65, 65);
 
-        this.transform.rotation = Quaternion.Euler(_pivotAngleX, this.transform.localEulerAngles.y + mouseInput.y, 0);
+            this.transform.rotation = Quaternion.Euler(_pivotAngleX, this.transform.localEulerAngles.y + mouseInput.y, 0);
+        }
+
     }
 
     public void Zoom(float amount)

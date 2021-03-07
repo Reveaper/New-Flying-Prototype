@@ -3,10 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
 public enum PlayerState
 {
     Grounded, Flying
-}
+}*/
 
 [RequireComponent(typeof(Rigidbody))]
 public class TemporaryCharacterController : MonoBehaviour
@@ -23,7 +24,7 @@ public class TemporaryCharacterController : MonoBehaviour
     [SerializeField] private float _movementStrength = 50f;
     private float _rotationLerpSpeed = 0.25f;
 
-
+    private bool _jump;
 
     private float _maxVelocity = 4f;
 
@@ -33,37 +34,43 @@ public class TemporaryCharacterController : MonoBehaviour
         _rigidbody = this.GetComponent<Rigidbody>();
         _camera = _cameraSystem.Camera;
 
+
         //Locomotion doesnt work with Root Motion enabled
         //Locomotion without root motion + enable/disable on roll works, but it gives odd AABB errors only if the game starts with root motion disabled
         //Disabling root motion after game has started still give those errors
         
         //On the first roll, root motion has to be already enabled or else it will continuously give those errors
         //so, easy dumb fix.. roll the player on game start
-        _animator.SetTrigger("Roll");
+        //_animator.SetTrigger("Roll");
 
     }
-
-
 
     private void FixedUpdate()
     {
         HandleMovementStates();
-    }
 
+    }
 
     private void Update()
     {
+
         if (Input.GetKeyDown(KeyCode.E))
             _animator.SetTrigger("Roll");
 
         if (Input.GetKeyDown(KeyCode.Space))
-            _state = _state == PlayerState.Grounded ? PlayerState.Flying : PlayerState.Grounded;
+            _animator.SetBool("Fly", !_animator.GetBool("Fly"));
 
-        _animator.SetFloat("Forward", Mathf.Min(_rigidbody.velocity.magnitude / _maxVelocity, 1));
+
+        if (Input.GetKeyDown(KeyCode.R))
+            _jump = true;
+
+
+
     }
 
     private void HandleMovementStates()
     {
+        /*
         switch (_state)
         {
             case PlayerState.Grounded:
@@ -72,21 +79,28 @@ public class TemporaryCharacterController : MonoBehaviour
             case PlayerState.Flying:
                 HandleFlyingState();
                 break;
-        }
+        }*/
     }
 
     private void HandleGroundedState()
     {
         _velocity = _rigidbody.velocity;
 
+        
         ApplyMovement();
         LimitVelocity();
- 
+
+        if (_jump)
+        {
+            _velocity = Vector3.up * 5f;
+            _jump = false;
+        }
+
         _rigidbody.velocity = _velocity;
 
-        RotateToDirection();
+        //RotateToDirection();
 
-
+        _animator.SetFloat("Forward", Mathf.Min(_rigidbody.velocity.magnitude / _maxVelocity, 1));
     }
 
     private void ApplyMovement()
@@ -127,15 +141,17 @@ public class TemporaryCharacterController : MonoBehaviour
         this.transform.rotation = Quaternion.Slerp(this.transform.rotation, targetRotation, _rotationLerpSpeed);
     }
 
-
-    private void ApplyGravity(Vector3 velocity)
-    {
-        velocity.y += Physics.gravity.y;
-    }
-
     private void HandleFlyingState()
     {
         this.transform.position += Vector3.up * Time.deltaTime;
     }
 
+    private void OnAnimatorMove()
+    {
+        if (_rigidbody.velocity.sqrMagnitude >= 0.02f)
+        {
+            Vector3 velocity = Vector3.ProjectOnPlane(_rigidbody.velocity, Vector3.up);
+            SmoothRotateTowards(velocity);
+        }
+    }
 }
