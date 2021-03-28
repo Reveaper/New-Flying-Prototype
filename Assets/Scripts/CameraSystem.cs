@@ -38,7 +38,7 @@ public class CameraSystem : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q) && !_isTargeting)
+        if (Input.GetMouseButtonDown(1) && !_isTargeting)
         {
             Ray ray = new Ray(_camera.transform.position, _camera.transform.forward * 100f);
             RaycastHit rayHit;
@@ -49,7 +49,7 @@ public class CameraSystem : MonoBehaviour
                 _targetingObject = rayHit.collider.gameObject;
             }
         }
-        else if (Input.GetKeyDown(KeyCode.Q) &&  _isTargeting)
+        else if (Input.GetMouseButtonDown(1) &&  _isTargeting)
             _isTargeting = false;
 
         if(_isTargeting)

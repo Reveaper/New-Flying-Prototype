@@ -1,11 +1,14 @@
 fileFormatVersion: 2
-guid: 7c41f1d4e35868f46ab21532d5bea5bf
+guid: c265e2e71a469184c8daed2d14f0141f
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable:
   - first:
       74: -203655887218126122
-    second: xbot_Flying_2Mid
+    second: mixamo.com
+  - first:
+      74: 5892374519696236162
+    second: Great Sword Slash
   externalObjects: {}
   materials:
     materialImportMode: 0
@@ -35,24 +38,24 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: xbot_Flying_2Mid
+      name: Great Sword Slash
       takeName: mixamo.com
       internalID: 0
       firstFrame: 0
-      lastFrame: 79
+      lastFrame: 106
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 1
+      loopTime: 0
       loopBlend: 0
-      loopBlendOrientation: 1
-      loopBlendPositionY: 1
-      loopBlendPositionXZ: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
       keepOriginalOrientation: 1
-      keepOriginalPositionY: 0
+      keepOriginalPositionY: 1
       keepOriginalPositionXZ: 1
       heightFromFeet: 0
       mirror: 0
